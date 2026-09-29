@@ -1,10 +1,11 @@
-// Base de datos por defecto (Mínimo 6 canciones sin copyright)
+// Base de datos por defecto (Protegidas contra eliminación)
 const DEFAULT_PLAYLISTS = [
   {
     id: "col-lofi",
     name: "Focus & Chill Vibes",
     desc: "Melodías suaves para programación y concentración profunda.",
     cover: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&q=80",
+    isDefault: true,
     songs: [
       {
         title: "Lofi Study Beat",
@@ -25,6 +26,7 @@ const DEFAULT_PLAYLISTS = [
     name: "Acoustic Horizon",
     desc: "Cuerdas y armonías relajantes.",
     cover: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&q=80",
+    isDefault: true,
     songs: [
       {
         title: "Chill Acoustic Guitar",
@@ -45,6 +47,7 @@ const DEFAULT_PLAYLISTS = [
     name: "Synth Neon Wave",
     desc: "Retrofuturismo y sintetizadores.",
     cover: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&q=80",
+    isDefault: true,
     songs: [
       {
         title: "Synthwave Sunset",
@@ -65,6 +68,7 @@ const DEFAULT_PLAYLISTS = [
     name: "Mis Subidas",
     desc: "Pistas subidas localmente.",
     cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&q=80",
+    isDefault: true,
     songs: []
   }
 ];
@@ -144,6 +148,16 @@ const DB = {
       const record = { username, ...playlist };
       const req = store.add(record);
       req.onsuccess = () => resolve(record);
+      req.onerror = (e) => reject(e);
+    });
+  },
+
+  deletePlaylist(playlistId) {
+    return new Promise((resolve, reject) => {
+      const tx = this.instance.transaction(["playlists"], "readwrite");
+      const store = tx.objectStore("playlists");
+      const req = store.delete(playlistId);
+      req.onsuccess = () => resolve();
       req.onerror = (e) => reject(e);
     });
   },
@@ -231,14 +245,50 @@ function renderSidebar() {
   collections.forEach((col, idx) => {
     const li = document.createElement("li");
     li.className = idx === State.activeColIndex ? "active" : "";
-    li.innerHTML = `<i class="fa-solid fa-shapes"></i> <span>${col.name}</span>`;
-    li.addEventListener("click", () => {
+    
+    // Contenido de la fila con botón de eliminar si no es por defecto
+    li.innerHTML = `
+      <div class="nav-item-left">
+        <i class="fa-solid fa-shapes"></i>
+        <span>${col.name}</span>
+      </div>
+      ${!col.isDefault ? `<button class="del-pl-btn" title="Eliminar playlist"><i class="fa-solid fa-trash"></i></button>` : ""}
+    `;
+
+    li.querySelector(".nav-item-left").addEventListener("click", () => {
       State.activeColIndex = idx;
       renderSidebar();
       renderCollectionContent();
     });
+
+    if (!col.isDefault) {
+      const delBtn = li.querySelector(".del-pl-btn");
+      delBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        await deletePlaylistAction(col.id, col.name);
+      });
+    }
+
     DOM.playlistNav.appendChild(li);
   });
+}
+
+async function deletePlaylistAction(id, name) {
+  const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar la playlist "${name}"?`);
+  if (!confirmDelete) return;
+
+  if (State.currentUser) {
+    await DB.deletePlaylist(id);
+  }
+
+  // Filtrar del array en memoria
+  collections = collections.filter(c => c.id !== id);
+  if (State.activeColIndex >= collections.length) {
+    State.activeColIndex = 0;
+  }
+
+  renderSidebar();
+  renderCollectionContent();
 }
 
 function renderCollectionContent() {
@@ -253,7 +303,7 @@ function renderCollectionContent() {
   if (col.songs.length === 0) {
     DOM.tracksGrid.innerHTML = `
       <div style="grid-column: 1 / -1; color: var(--text-dim); padding: 30px; text-align: center;">
-        No hay pistas en esta playlist. ¡Sube canciones o agrégalas!
+        No hay pistas en esta playlist. ¡Sube canciones para comenzar!
       </div>`;
     return;
   }
@@ -388,6 +438,7 @@ DOM.playlistForm.addEventListener("submit", async (e) => {
     name,
     desc: desc || "Playlist creada por el usuario",
     cover: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80",
+    isDefault: false,
     songs: []
   };
 
