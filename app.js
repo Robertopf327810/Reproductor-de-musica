@@ -246,16 +246,19 @@ function renderSidebar() {
     const li = document.createElement("li");
     li.className = idx === State.activeColIndex ? "active" : "";
     
-    // Contenido de la fila con botón de eliminar si no es por defecto
     li.innerHTML = `
       <div class="nav-item-left">
         <i class="fa-solid fa-shapes"></i>
         <span>${col.name}</span>
       </div>
-      ${!col.isDefault ? `<button class="del-pl-btn" title="Eliminar playlist"><i class="fa-solid fa-trash"></i></button>` : ""}
+      ${!col.isDefault ? `<button type="button" class="del-pl-btn" title="Eliminar"><i class="fa-solid fa-trash"></i></button>` : ""}
     `;
 
-    li.querySelector(".nav-item-left").addEventListener("click", () => {
+    // Clic en TODO el li para que en celular responda al toque en cualquier parte
+    li.addEventListener("click", (e) => {
+      // Si tocó el botón de eliminar, no cambiar de playlist
+      if (e.target.closest(".del-pl-btn")) return;
+
       State.activeColIndex = idx;
       renderSidebar();
       renderCollectionContent();
