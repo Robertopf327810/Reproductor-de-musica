@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoundWave - Spotify Style</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="theme-dark">
+
+  <div class="spotify-layout">
+    
+    <!-- Barra lateral (Sidebar de Playlists) -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-compact-disc"></i>
+        <span>SoundWave</span>
+      </div>
+
+      <div class="auth-box" id="auth-section"></div>
+
+      <nav class="nav-menu">
+        <span class="section-title">BIBLIOTECA</span>
+        <ul id="playlist-tabs">
+          <!-- Playlists generadas dinámicamente -->
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <label for="file-upload" class="upload-btn">
+          <i class="fa-solid fa-plus"></i> Subir Canción
+        </label>
+        <input type="file" id="file-upload" accept="audio/*">
+        <button id="theme-toggle" class="icon-action-btn" title="Cambiar tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal: Cabecera y Lista de Canciones de la Playlist activa -->
+    <main class="main-view">
+      <header class="playlist-header">
+        <img id="current-pl-cover" src="" alt="Portada Playlist">
+        <div class="playlist-meta">
+          <span class="tag">PLAYLIST</span>
+          <h1 id="current-pl-name">Nombre Playlist</h1>
+          <p id="current-pl-desc">Descripción...</p>
+        </div>
+      </header>
+
+      <section class="tracks-container">
+        <div class="tracks-table-header">
+          <span>#</span>
+          <span>TÍTULO</span>
+          <span>ARTISTA</span>
+        </div>
+        <ul class="tracks-list" id="tracks-list-view">
+          <!-- Canciones de la playlist activa -->
+        </ul>
+      </section>
+    </main>
+
+    <!-- Barra Inferior Fija de Reproducción (Estilo Spotify) -->
+    <footer class="now-playing-bar">
+      <!-- Info Canción -->
+      <div class="current-track-info">
+        <img id="player-thumb" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&q=80" alt="Miniatura">
+        <div class="meta-texts">
+          <span id="player-title" class="title">Selecciona una pista</span>
+          <span id="player-artist" class="artist">-</span>
+        </div>
+      </div>
+
+      <!-- Controles y Barra de Tiempo -->
+      <div class="player-center">
+        <div class="player-controls">
+          <button id="prev-btn" class="ctrl-btn" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+          <button id="play-btn" class="ctrl-btn play-circle" title="Play"><i class="fa-solid fa-play"></i></button>
+          <button id="next-btn" class="ctrl-btn" title="Siguiente"><i class="fa-solid fa-forward-step"></i></button>
+        </div>
+        <div class="timeline-container">
+          <span id="current-time">0:00</span>
+          <input type="range" id="progress-bar" value="0" min="0" max="100">
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+
+      <!-- Volumen -->
+      <div class="player-right">
+        <i class="fa-solid fa-volume-high"></i>
+        <input type="range" id="volume-bar" value="80" min="0" max="100">
+      </div>
+
+      <audio id="audio-engine" preload="metadata"></audio>
+    </footer>
+
+  </div>
+
+  <!-- Modal Login / Registro -->
+  <div class="modal-overlay hidden" id="auth-modal">
+    <div class="modal-card">
+      <h3 id="modal-title">Iniciar Sesión</h3>
+      <form id="auth-form">
+        <div class="input-group">
+          <label for="username-input">Usuario:</label>
+          <input type="text" id="username-input" required autocomplete="username">
+        </div>
+        <div class="input-group">
+          <label for="password-input">Contraseña:</label>
+          <input type="password" id="password-input" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary" id="modal-submit-btn">Entrar</button>
+      </form>
+      <p class="modal-footer-text">
+        <span id="auth-switch-prompt">¿No tienes cuenta?</span> 
+        <a href="#" id="auth-switch-link">Regístrate</a>
+      </p>
+      <button class="close-modal-btn" id="close-modal">&times;</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
