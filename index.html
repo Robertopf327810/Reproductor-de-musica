@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseMusic - Reproductor</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="theme-dark">
+
+  <div class="app-layout">
+    
+    <!-- Barra Lateral -->
+    <aside class="side-panel">
+      <div class="brand">
+        <div class="brand-badge"><i class="fa-solid fa-wave-square"></i></div>
+        <span>Pulse<b>Music</b></span>
+      </div>
+
+      <div class="user-card" id="auth-section"></div>
+
+      <div class="nav-group">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="group-label">PLAYLISTS</span>
+          <button id="open-create-pl-btn" class="icon-add-btn" title="Crear nueva playlist"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <ul id="playlist-nav"></ul>
+      </div>
+
+      <div class="side-actions">
+        <label for="file-upload" class="btn-action upload">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Subir pista</span>
+        </label>
+        <input type="file" id="file-upload" accept="audio/*">
+        
+        <button id="theme-toggle" class="btn-action theme" title="Cambiar tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="content-panel">
+      <section class="collection-hero">
+        <div class="hero-image-wrap">
+          <img id="current-pl-cover" src="" alt="Portada de la colección">
+        </div>
+        <div class="hero-info">
+          <span class="hero-pill">PLAYLIST</span>
+          <h1 id="current-pl-name">Cargando...</h1>
+          <p id="current-pl-desc">Descripción...</p>
+          <div class="hero-stats">
+            <span id="track-count-badge"><i class="fa-solid fa-music"></i> 0 pistas</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="tracks-section">
+        <h2>Pistas</h2>
+        <div class="cards-grid" id="tracks-grid"></div>
+      </section>
+    </main>
+
+    <!-- Reproductor Flotante Inferior -->
+    <div class="floating-player-wrapper">
+      <footer class="player-pill">
+        <div class="now-playing">
+          <img id="player-thumb" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&q=80" alt="Miniatura">
+          <div class="track-meta">
+            <span id="player-title" class="title">Selecciona una pista</span>
+            <span id="player-artist" class="artist">-</span>
+          </div>
+        </div>
+
+        <div class="controls-center">
+          <div class="buttons-row">
+            <button id="prev-btn" class="icon-btn" title="Anterior"><i class="fa-solid fa-backward-step"></i></button>
+            <button id="play-btn" class="main-play-btn" title="Reproducir"><i class="fa-solid fa-play"></i></button>
+            <button id="next-btn" class="icon-btn" title="Siguiente"><i class="fa-solid fa-forward-step"></i></button>
+          </div>
+          <div class="progress-box">
+            <span id="current-time">0:00</span>
+            <input type="range" id="progress-bar" value="0" min="0" max="100">
+            <span id="duration">0:00</span>
+          </div>
+        </div>
+
+        <div class="volume-box">
+          <i class="fa-solid fa-volume-low"></i>
+          <input type="range" id="volume-bar" value="80" min="0" max="100">
+          <i class="fa-solid fa-volume-high"></i>
+        </div>
+
+        <audio id="audio-engine" preload="metadata"></audio>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Modal Login / Registro -->
+  <div class="modal-overlay hidden" id="auth-modal">
+    <div class="glass-modal">
+      <h3 id="modal-title">Iniciar Sesión</h3>
+      <form id="auth-form">
+        <div class="form-group">
+          <label for="username-input">Usuario:</label>
+          <input type="text" id="username-input" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password-input">Contraseña:</label>
+          <input type="password" id="password-input" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="submit-btn" id="modal-submit-btn">Entrar</button>
+      </form>
+      <p class="modal-footer">
+        <span id="auth-switch-prompt">¿No tienes cuenta?</span> 
+        <a href="#" id="auth-switch-link">Regístrate</a>
+      </p>
+      <button class="close-btn" id="close-modal">&times;</button>
+    </div>
+  </div>
+
+  <!-- Modal Crear Playlist -->
+  <div class="modal-overlay hidden" id="playlist-modal">
+    <div class="glass-modal">
+      <h3>Crear Nueva Playlist</h3>
+      <form id="playlist-form">
+        <div class="form-group">
+          <label for="pl-name-input">Nombre de la Playlist:</label>
+          <input type="text" id="pl-name-input" placeholder="Ej. Favoritas 2026" required>
+        </div>
+        <div class="form-group">
+          <label for="pl-desc-input">Descripción:</label>
+          <input type="text" id="pl-desc-input" placeholder="Breve resumen de esta lista">
+        </div>
+        <button type="submit" class="submit-btn">Crear Playlist</button>
+      </form>
+      <button class="close-btn" id="close-pl-modal">&times;</button>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
