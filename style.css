@@ -38,8 +38,8 @@ body {
   background-color: var(--bg-deep);
   color: var(--text-main);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-layout {
@@ -48,7 +48,7 @@ body {
   height: 100vh;
 }
 
-/* --- Barra Lateral (Desktop) --- */
+/* --- Barra Lateral --- */
 .side-panel {
   background-color: var(--bg-surface);
   border-right: 1px solid var(--border);
@@ -64,7 +64,6 @@ body {
   align-items: center;
   gap: 12px;
   font-size: 1.25rem;
-  letter-spacing: -0.5px;
 }
 
 .brand-badge {
@@ -215,7 +214,7 @@ body {
 
 /* --- Panel Central --- */
 .content-panel {
-  padding: 30px 36px 140px;
+  padding: 24px 30px 150px;
   overflow-y: auto;
   background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 400px);
 }
@@ -224,22 +223,19 @@ body {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 22px;
+  padding: 20px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 18px;
   backdrop-filter: blur(12px);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-.hero-image-wrap {
-  flex-shrink: 0;
-}
-
+.hero-image-wrap { flex-shrink: 0; }
 .hero-image-wrap img {
-  width: 150px;
-  height: 150px;
-  border-radius: 14px;
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
   display: block;
@@ -258,16 +254,15 @@ body {
 }
 
 .hero-info h1 {
-  font-size: 2rem;
-  margin: 6px 0;
-  letter-spacing: -0.5px;
+  font-size: 1.8rem;
+  margin: 4px 0;
   word-break: break-word;
 }
 
 .hero-info p {
   color: var(--text-dim);
-  font-size: 0.9rem;
-  margin-bottom: 10px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
   word-break: break-word;
 }
 
@@ -276,16 +271,16 @@ body {
   color: var(--text-dim);
 }
 
-/* --- Cuadrícula de Canciones --- */
+/* --- Grid de Canciones --- */
 .tracks-section h2 {
-  font-size: 1.2rem;
-  margin-bottom: 16px;
+  font-size: 1.15rem;
+  margin-bottom: 14px;
 }
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
 }
 
 .song-card {
@@ -342,13 +337,8 @@ body {
   transform: translateY(0);
 }
 
-.song-card.playing {
-  border-color: var(--accent);
-}
-
-.song-card.playing .card-play-overlay {
-  background: var(--accent);
-}
+.song-card.playing { border-color: var(--accent); }
+.song-card.playing .card-play-overlay { background: var(--accent); }
 
 .card-title {
   font-size: 0.9rem;
@@ -367,32 +357,34 @@ body {
   text-overflow: ellipsis;
 }
 
-/* --- Barra Inferior Flotante (Desktop) --- */
+/* --- Barra de Reproducción Inferior --- */
 .floating-player-wrapper {
   position: fixed;
-  bottom: 16px;
+  bottom: 14px;
   left: 280px;
   right: 0;
   display: flex;
   justify-content: center;
   pointer-events: none;
   z-index: 100;
+  padding: 0 16px;
 }
 
 .player-pill {
   pointer-events: auto;
-  width: calc(100% - 48px);
-  max-width: 900px;
+  width: 100%;
+  max-width: 850px;
   background: var(--pill-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: 100px;
-  padding: 8px 20px;
-  display: grid;
-  grid-template-columns: 220px 1fr 140px;
+  padding: 8px 18px;
+  display: flex;
   align-items: center;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
 }
 
 .now-playing {
@@ -400,30 +392,25 @@ body {
   align-items: center;
   gap: 10px;
   overflow: hidden;
+  max-width: 220px;
+  flex-shrink: 0;
 }
 
 .now-playing img {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
 }
 
-.now-playing.is-rotating img {
-  animation: spin 10s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+.now-playing.is-rotating img { animation: spin 10s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 .track-meta {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  min-width: 0;
 }
 
 .track-meta .title {
@@ -447,6 +434,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  flex-grow: 1;
+  max-width: 420px;
 }
 
 .buttons-row {
@@ -462,7 +451,6 @@ body {
   font-size: 1.05rem;
   cursor: pointer;
 }
-
 .icon-btn:hover { color: var(--text-main); }
 
 .main-play-btn {
@@ -479,7 +467,6 @@ body {
 
 .progress-box {
   width: 100%;
-  max-width: 400px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -497,12 +484,11 @@ input[type="range"] {
 .volume-box {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: var(--text-dim);
-  justify-content: flex-end;
+  flex-shrink: 0;
 }
-
-.volume-box input { width: 75px; }
+.volume-box input { width: 70px; }
 
 /* Modales */
 .modal-overlay {
@@ -516,9 +502,7 @@ input[type="range"] {
   z-index: 500;
   padding: 16px;
 }
-
 .modal-overlay.hidden { display: none; }
-
 .glass-modal {
   position: relative;
   background: var(--bg-surface);
@@ -528,14 +512,12 @@ input[type="range"] {
   width: 100%;
   max-width: 340px;
 }
-
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin: 12px 0;
 }
-
 .form-group input {
   padding: 10px 12px;
   border-radius: 8px;
@@ -543,7 +525,6 @@ input[type="range"] {
   background: var(--bg-deep);
   color: var(--text-main);
 }
-
 .submit-btn {
   background: linear-gradient(135deg, var(--primary), var(--accent));
   color: white;
@@ -555,7 +536,6 @@ input[type="range"] {
   cursor: pointer;
   margin-top: 6px;
 }
-
 .close-btn {
   position: absolute;
   top: 12px;
@@ -566,20 +546,19 @@ input[type="range"] {
   color: var(--text-dim);
   cursor: pointer;
 }
-
 .modal-footer {
   margin-top: 12px;
   font-size: 0.8rem;
   text-align: center;
   color: var(--text-dim);
 }
-
 .modal-footer a { color: var(--accent); text-decoration: none; }
 
 /* ========================================================
-   ADAPTACIÓN RESPONSIVA OPTIMIZADA PARA CELULAR
+   REGLAS PARA CELULARES Y PANTALLAS PEQUEÑAS
+   (Vertical u Horizontal)
    ======================================================== */
-@media (max-width: 768px) {
+@media (max-width: 900px), (max-height: 550px) {
   body {
     overflow-y: auto;
   }
@@ -591,114 +570,98 @@ input[type="range"] {
     min-height: 100vh;
   }
 
-  /* Barra lateral compactada arriba */
+  /* Barra lateral arriba como barra superior */
   .side-panel {
     border-right: none;
     border-bottom: 1px solid var(--border);
-    padding: 14px 16px;
-    gap: 12px;
+    padding: 12px 16px;
+    gap: 10px;
   }
 
-  .brand {
-    font-size: 1.15rem;
-  }
+  .brand { font-size: 1.15rem; }
+  .user-card { padding: 6px 10px; }
 
-  .user-card {
-    padding: 8px 12px;
-  }
-
-  /* Listas horizontales con desplazamiento táctil suave */
+  /* Menú de playlists en fila desplazable */
   #playlist-nav {
     flex-direction: row;
     overflow-x: auto;
     max-height: none;
     gap: 8px;
-    padding-bottom: 6px;
+    padding-bottom: 4px;
     -webkit-overflow-scrolling: touch;
   }
 
   #playlist-nav li {
     flex-shrink: 0;
     white-space: nowrap;
-    padding: 8px 12px;
+    padding: 6px 12px;
   }
 
-  .side-actions {
-    margin-top: 0;
-  }
+  .side-actions { margin-top: 0; }
 
-  /* Contenido principal con padding ajustado */
+  /* Contenedor central */
   .content-panel {
-    padding: 16px 16px 140px;
+    padding: 16px 16px 130px;
     background: none;
   }
 
-  /* Hero Banner 100% centrado y sin desbordes */
+  /* Hero Banner adaptable */
   .collection-hero {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
     gap: 16px;
-    padding: 20px 16px;
-    margin-bottom: 24px;
+    padding: 16px;
+    margin-bottom: 20px;
   }
 
   .hero-image-wrap img {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
+    width: 90px;
+    height: 90px;
   }
 
-  .hero-info h1 {
-    font-size: 1.45rem;
-  }
+  .hero-info h1 { font-size: 1.3rem; }
+  .hero-info p { font-size: 0.8rem; }
 
-  .hero-info p {
-    font-size: 0.85rem;
-  }
-
-  /* Canciones en 2 columnas en pantalla de celular */
+  /* Cuadrícula de canciones */
   .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
   }
 
-  .song-card {
-    padding: 10px;
-  }
-
-  .card-title {
-    font-size: 0.85rem;
-  }
-
-  /* Barra de reproducción fija abajo estilo App móvil */
+  /* Barra de reproducción inferior fija que nunca se desborda */
   .floating-player-wrapper {
     left: 0;
     bottom: 0;
     width: 100%;
-    padding: 8px 12px 14px;
+    padding: 8px 10px 12px;
   }
 
   .player-pill {
     width: 100%;
     max-width: 100%;
-    border-radius: 16px;
-    grid-template-columns: 1fr auto;
-    padding: 8px 14px;
-    gap: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .now-playing {
+    max-width: 180px;
   }
 
   .now-playing img {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
   }
 
   .controls-center {
     flex-direction: row;
-    gap: 10px;
+    justify-content: flex-end;
+    flex-grow: 0;
   }
 
+  /* Ocultar barra de progreso y volumen en móvil para no desbordar */
   .progress-box,
   .volume-box {
     display: none;
